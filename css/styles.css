@@ -35,16 +35,10 @@ html {
     padding-bottom: 0.3em;
 }
 
-#process {
-    background-color: red;
-    white-space: nowrap;
-    width: 0px;
-}
-
 #ball {
     border-radius: 400px;
     width: 10px;
-    height:10px;
+    height: 10px;
     background-color: black;
     position: absolute;
     top: 50%;
@@ -52,7 +46,7 @@ html {
     z-index: 10;
 }
 
-#scoring {
+#score {
     position: absolute;
     top: 20px;
     font-size: 30px;
@@ -73,7 +67,7 @@ html {
     background-color: darkred;
 }
 
-.p2{
+.p2 {
     right: 15px;
     background-color: brown;
 }
