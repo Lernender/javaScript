@@ -1,4 +1,5 @@
-body,html {
+body,
+html {
     background-color: black;
     color: white;
     font-size: 28px;
@@ -7,15 +8,21 @@ body,html {
     margin: 0;
 }
 
-#spielfeld{
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#playing-field {
     width: 80%;
-    height:80%;
+    height: 80%;
     background-color: lightgray;
     position: relative;
     overflow: hidden;
 }
 
-#mittellinie{
+#midline {
     border-left: 4px dashed white;
     height: 100%;
     position: absolute;
@@ -24,17 +31,17 @@ body,html {
     z-index: 0;
 }
 
-#anzeigetafel{
+#scoreboard {
     padding-bottom: 0.3em;
 }
 
-#spielverlauf{
+#process {
     background-color: red;
     white-space: nowrap;
     width: 0px;
 }
 
-#ball{
+#ball {
     border-radius: 400px;
     width: 10px;
     height:10px;
@@ -45,7 +52,7 @@ body,html {
     z-index: 10;
 }
 
-#resulatat{
+#scoring {
     position: absolute;
     top: 20px;
     font-size: 30px;
@@ -54,14 +61,7 @@ body,html {
     text-align: center;
 }
 
-
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.spieler{
+.player {
     width: 5px;
     height: 20%;
     top: calc(50% - 10%);
