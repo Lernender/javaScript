@@ -1,0 +1,80 @@
+body,html {
+    background-color: black;
+    color: white;
+    font-size: 28px;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#spielfeld{
+    width: 80%;
+    height:80%;
+    background-color: lightgray;
+    position: relative;
+    overflow: hidden;
+}
+
+#mittellinie{
+    border-left: 4px dashed white;
+    height: 100%;
+    position: absolute;
+    left: calc(50% - 2px);
+    top: 0;
+    z-index: 0;
+}
+
+#anzeigetafel{
+    padding-bottom: 0.3em;
+}
+
+#spielverlauf{
+    background-color: red;
+    white-space: nowrap;
+    width: 0px;
+}
+
+#ball{
+    border-radius: 400px;
+    width: 10px;
+    height:10px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 5px);
+    z-index: 10;
+}
+
+#resulatat{
+    position: absolute;
+    top: 20px;
+    font-size: 30px;
+    left: 40%;
+    width: 80px;
+    text-align: center;
+}
+
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.spieler{
+    width: 5px;
+    height: 20%;
+    top: calc(50% - 10%);
+    position: absolute;
+}
+
+.p1 {
+    left: 15px;
+    background-color: darkred;
+}
+
+.p2{
+    right: 15px;
+    background-color: brown;
+}
+
