@@ -2,10 +2,15 @@ body,
 html {
     background-color: black;
     color: white;
-    font-size: 28px;
+    font-size: 20px;
     height: 100%;
     width: 100%;
     margin: 0;
+}
+
+h1 {
+    color: white;
+    ont-size: 35px;
 }
 
 * {
