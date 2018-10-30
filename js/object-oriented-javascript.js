@@ -11,6 +11,7 @@ class Game {
     window.addEventListener('load', this.dimensions.bind(this), false);
     window.addEventListener('resize', this.dimensions.bind(this), false);
     document.addEventListener('keydown', this.keyInputHandler.bind(this), false);
+    document.addEventListener('keyup', this.keyInputHandlerReset.bind(this), false);
   }
 
   get getStatus() {
@@ -46,6 +47,18 @@ class Game {
     }
   }
 
+  keyInputHandlerReset(event) {
+    if (event.key === this.player1.getKeyUp ||
+      event.key === this.player1.getKeyDown) {
+      this.player1.setDirection = false;
+    }
+
+    if (event.key === this.player2.getKeyUp ||
+      event.key === this.player2.getKeyDown) {
+      this.player2.setDirection = false;
+    }
+  }
+
   dimensions() {
     this.field.dimensions();
     this.ball.dimensions();
@@ -61,6 +74,12 @@ class Game {
   animation() {
     this.player1.changeDirection();
     this.player2.changeDirection();
+    this.behavior();
+
+    // Move elements
+    this.ball.move();
+    this.player1.move();
+    this.player2.move();
 
     if (this.getStatus) {
       window.requestAnimationFrame(this.animation.bind(this));
@@ -70,17 +89,74 @@ class Game {
   stop() {
     this.setStatus = false;
   }
+
+  behavior() {
+    const ballRadius = this.ball.getTop + this.ball.getDiameter / 2;
+
+    // Ball
+    this.ball.setLeft = this.ball.element.offsetLeft;
+    this.ball.setTop = this.ball.element.offsetTop;
+
+    // Player 1
+    if (
+      this.player1.getLeft > this.ball.getLeft &&
+      ballRadius > this.player1.getTop &&
+      ballRadius < this.player1.getTop + this.player1.getHeight
+    ) {
+      this.ball.reverseLeftSpeed();
+      this.ball.increaseTopSpeed(this.ball.connectPosition(this.player1));
+    }
+
+    // Player 2
+    if (
+      this.player2.getLeft < this.ball.getLeft + this.ball.getDiameter &&
+      ballRadius > this.player2.getTop &&
+      ballRadius < this.player2.getTop + this.player2.getHeight
+    ) {
+      this.ball.reverseLeftSpeed();
+      this.ball.increaseTopSpeed(this.ball.connectPosition(this.player2));
+    }
+
+    // Player 1 scores
+    if ((this.ball.getLeft + this.ball.getDiameter) > this.field.getWidth) {
+      this.ball.reverseLeftSpeed();
+      this.player1.scored();
+    }
+
+    // Player 2 scores
+    if (this.ball.getLeft < 0) {
+      this.ball.reverseLeftSpeed();
+      this.player2.scored();
+    }
+
+    // Ball bounces on top or bottom
+    console.log(this.field.getHeight);
+    if ((this.ball.getTop + this.ball.getDiameter) > this.field.getHeight || this.ball.getTop < 0) {
+      this.ball.reverseTopSpeed();
+    }
+
+    this.ball.increaseLeft(this.ball.getLeftSpeed);
+    this.ball.increaseTop(this.ball.getTopSpeed);
+  }
 }
 
 class Field {
-  constructor (element) {
+  constructor(element) {
     this.element = element;
     this.width = 0;
     this.height = 0;
   }
 
+  get getWidth() {
+    return this.width;
+  }
+
   set setWidth(value) {
     this.width = value;
+  }
+
+  get getHeight() {
+    return this.height;
   }
 
   set setHeight(value) {
@@ -94,15 +170,38 @@ class Field {
 }
 
 class Ball {
-  constructor (element) {
+  constructor(element) {
     this.element = element;
     this.top = 0;
     this.left = 0;
     this.diameter = 0;
-    this.speed = 8;
     this.leftSpeed = 8;
     this.topSpeed = 1;
-    this.topSpeedMax = 7;
+    this.topMaxSpeed = 7;
+  }
+
+  get getTop() {
+    return this.top;
+  }
+
+  get getLeft() {
+    return this.left;
+  }
+
+  get getDiameter() {
+    return this.diameter;
+  }
+
+  get getTopSpeed() {
+    return this.topSpeed;
+  }
+
+  get getLeftSpeed() {
+    return this.leftSpeed;
+  }
+
+  get getTopMaxSpeed() {
+    return this.topMaxSpeed
   }
 
   set setTop(value) {
@@ -117,15 +216,55 @@ class Ball {
     this.diameter = value;
   }
 
+  set setTopSpeed(value) {
+    this.topSpeed = value;
+  }
+
+  set setLeftSpeed(value) {
+    this.leftSpeed = value;
+  }
+
   dimensions() {
     this.setTop = this.element.offsetTop;
     this.setLeft = this.element.offsetLeft;
     this.setDiameter = this.element.offsetWidth;
   }
+
+  reverseTopSpeed() {
+    this.setTopSpeed = this.getTopSpeed * -1;
+  }
+
+  reverseLeftSpeed() {
+    this.setLeftSpeed = this.getLeftSpeed * -1;
+  }
+
+  increaseTopSpeed(value) {
+    this.topSpeed += value;
+  }
+
+  increaseTop(value) {
+    this.top += value;
+  }
+
+  increaseLeft(value) {
+    this.left += value;
+  }
+
+  connectPosition(player) {
+    const ballTopCenter = this.getTop - (player.getHeight / 2 + player.getTop);
+
+    return (this.getTopMaxSpeed / (player.getHeight / 2)) * ballTopCenter;
+  }
+
+  move() {
+    this.element.style.top = `${this.getTop}px`;
+    this.element.style.left = `${this.getLeft}px`;
+
+  }
 }
 
 class Player {
-  constructor (element, scoreElement, keyUp, keyDown) {
+  constructor(element, scoreElement, keyUp, keyDown) {
     this.element = element;
     this.scoreElement = scoreElement;
     this.keyUp = keyUp;
@@ -149,6 +288,18 @@ class Player {
 
   get getDirection() {
     return this.direction;
+  }
+
+  get getLeft() {
+    return this.left;
+  }
+
+  get getTop() {
+    return this.top;
+  }
+
+  get getHeight() {
+    return this.height;
   }
 
   set setDirection(value) {
@@ -196,9 +347,27 @@ class Player {
   drawScore() {
     this.scoreElement.innerText = this.points;
   }
+
+  scored() {
+    this.increaseScore();
+    this.drawScore();
+  }
+
+  move() {
+    this.element.style.top = `${this.getTop}px`;
+  }
 }
 
-// TODO: Add HTMLElement class (element, top, left, width, height)
+class HTMLElement {
+
+}
+// TODO: Add HTMLElement class (element, top, left, width, height, diameter)
+class HTMLElement {
+  constructor(element, scoreElement, keyUp, keyDown) {
+    this.element = element;
+    this.scoreElement = scoreElement;
+    this.keyUp = keyUp;
+    this.keyDown = keyDown;
 
 class Utils {
   static isString(value) {

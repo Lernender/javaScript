@@ -1,5 +1,5 @@
 // Spielfeld
-var field = document.getElementById('playing-field');
+var field = document.getElementById('field');
 var fieldWidth = 0;
 var fieldHeight = 0;
 var startKey = 'Space';
@@ -18,7 +18,7 @@ var ballTopSpeedMax = 7;
 var playerSpeed = 7;
 
 // Spieler 1
-var p1 = document.getElementById('p1');
+var p1 = document.getElementById('player1');
 var p1Top = 0;
 var p1Left = 0;
 var p1Height = 0;
@@ -28,7 +28,7 @@ var p1KeyDown = 's';
 var p1Points = 0;
 
 // Spieler 2
-var p2 = document.getElementById('p2');
+var p2 = document.getElementById('player2');
 var p2Top = 0;
 var p2Left = 0;
 var p2Height = 0;

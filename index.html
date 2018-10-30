@@ -3,22 +3,18 @@
 <head>
     <meta charset=“utf-8“>
     <title>JavaScript Pong Game</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli:900" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1 id="myHeading">Pong</h1>
-
-    <div id="scoreboard">
-        <div>Drücken Sie eine beliebige Taste<br />Viel Glück!</div>
-        <div>
-            <span id="player1-score">0</span>:<span id="player2-score">0</span>
-        </div>
-    </div>
 
     <div id="field">
+        <div id="scoreboard">
+            <span id="player1-score" class="score">0</span>:<span id="player2-score" class="score">0</span>
+        </div>
         <div id="ball"></div>
-        <div id="player1" class="player p1"></div>
-        <div id="player2" class="player p2"></div>
+        <div id="player1" class="player"></div>
+        <div id="player2" class="player"></div>
         <div id="midline"></div>
     </div>
 

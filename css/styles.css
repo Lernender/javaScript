@@ -1,16 +1,7 @@
 body,
 html {
-    background-color: black;
-    color: white;
-    font-size: 20px;
-    height: 100%;
-    width: 100%;
+    font-family: 'Muli', sans-serif;
     margin: 0;
-}
-
-h1 {
-    color: white;
-    ont-size: 35px;
 }
 
 * {
@@ -19,25 +10,35 @@ h1 {
     box-sizing: border-box;
 }
 
-#playing-field {
-    width: 80%;
-    height: 80%;
+#field {
+    width: 100vw;
+    height: 100vh;
     background-color: lightgray;
     position: relative;
     overflow: hidden;
 }
 
-#midline {
-    border-left: 4px dashed white;
-    height: 100%;
+#scoreboard {
     position: absolute;
-    left: calc(50% - 2px);
     top: 0;
-    z-index: 0;
+    right: 0;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 24px;
 }
 
-#scoreboard {
-    padding-bottom: 0.3em;
+.score {
+    padding: 0 5px;
+}
+
+#midline {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 2px);
+    border-left: 4px dashed white;
+    z-index: 0;
 }
 
 #ball {
@@ -51,29 +52,14 @@ h1 {
     z-index: 10;
 }
 
-#score {
-    position: absolute;
-    top: 20px;
-    font-size: 30px;
-    left: 40%;
-    width: 80px;
-    text-align: center;
-}
-
 .player {
+    position: absolute;
+    top: calc(50% - 10%);
     width: 5px;
     height: 20%;
-    top: calc(50% - 10%);
-    position: absolute;
-}
-
-.p1 {
-    left: 15px;
     background-color: darkred;
 }
 
-.p2 {
-    right: 15px;
-    background-color: brown;
-}
+#player1 { left: 15px; }
+#player2 { right: 15px; }
 
